@@ -11,8 +11,6 @@
 
      - Docker 이해 및 활용 
      - GitHub , Docker 계정 생성 , Jenkins Pipeline 생성하여 CI 실습 
-     - Swagger 설명 
-     - 샘플 소스 : [ 소스 보기 ](https://github.com/shclub/edu2)  
 
      <br/>
 
@@ -20,8 +18,6 @@
 
      - Github Action , workflow 사용 ( GoodBye Jenkins ) 
      - Docker Compose 설치 및 활용 ( DB 연동 )  
-     - 샘플 소스 : [ 소스 보기 ](https://github.com/shclub/edu1)  
-
 
      <br/>
 

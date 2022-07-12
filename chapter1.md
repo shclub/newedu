@@ -239,7 +239,17 @@ if __name__ == '__main__':
 ```
 
 <br/>
-아래 명령어를 사용하여 도커 파일을 생성한다. 
+
+git 명령어를 사용하여 서버에 commit 하고 push 한다.
+
+```bash
+git add .
+git commit -m "first commit"
+git push -u origin master
+```  
+<br/>
+
+이제 아래 명령어를 사용하여 도커 이미지를 생성한다. 
 Dockerfile 위치와 같은 폴더에서 실행하여야 하며 생성할 이미지 이름 뒤에 . 을 반드시 사용한다.
 
 ```bash
