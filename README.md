@@ -91,3 +91,15 @@ oc login https://api.211-34-231-81.nip.io:6443 -u shclub-admin -p New1234! --ins
 ```bash
 https://211.252.87.34:30000/
 ```  
+
+<br/>
+
+## KT Cloud KTP 상품
+ 
+<br/>
+
+```bash
+https://cloud.kt.com/portal/user-guide/Container-container-guide
+```  
+
+

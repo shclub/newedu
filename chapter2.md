@@ -407,6 +407,7 @@ version: '3.3'
 services:
     frontend:
         image: ghcr.io/shclub/edu12-3:master
+        container_name: frontend
         depends_on:
           - backend
         environment:
@@ -420,18 +421,6 @@ services:
           SPRING_PROFILES_ACTIVE: dev
         ports:
           - 8092:8080
-    db:
-        image: mysql
-        restart: always
-        volumes:
-          - ./mysql/:/var/lib/mysql/
-        ports:
-          - 3306:3306
-        environment:
-          MYSQL_ROOT_PASSWORD: edu1234
-          MYSQL_USER: edu
-          MYSQL_PASSWORD: edu1234
-          MYSQL_DATABASE: edu
 ```  
 <br/>
 
