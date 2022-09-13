@@ -364,16 +364,16 @@ helm repo list
 
 ### Git Clone 하여 github 소스 가져오기.  
 
-github에서  shclub/edu2 를 선택하고 code를 클릭한다.  
+github에서  shclub/edu1 를 선택하고 code를 클릭한다.  
 https의 url를 복사한다. 오른쪽 복사 아이콘 클릭  
 
 <img src="./assets/github_clone.png" style="width: 60%; height: auto;"/>  
 
 터미털에서 git clone 명령어를 사용하여 로컬에 소스를 가져온다.  
-정상적으로 가져오면 edu2 폴더로 이동하여 파일 받아진것 확인한다.
+정상적으로 가져오면 edu1 폴더로 이동하여 파일 받아진것 확인한다.
 
 ```bash
-git clone https://github.com/shclub/edu2.git
+git clone https://github.com/shclub/edu1.git
 ```
 
 <img src="./assets/git_clone.png" style="width: 60%; height: auto;"/>  
@@ -829,7 +829,7 @@ GitHub와 Docker Hub Credential 이 생선된 것을 확인한다.
 
 <br/>
 
-### 파이프 라인을 구성한다.
+### CI 파이프 라인을 구성한다.
         
 <br/>
 

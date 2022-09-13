@@ -38,7 +38,7 @@ Github의 Action , workflow 기능을 이용하여 빌드를 수행해본다.
 
 <br/>
 
-https://github.com/shclub/edu7 를 본인의 github에 fork 한다.  
+https://github.com/shclub/edu1 를 본인의 github에 fork 한다.  
 
 Actions tab 을 클릭한다.  
 
@@ -95,7 +95,7 @@ package를 설정할수 있다.
 
 
 ```bash
-root@jakelee:~# docker run ghcr.io/shclub/edu7:master
+root@jakelee:~# docker run ghcr.io/shclub/edu1:master
  * Serving Flask app 'app' (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
@@ -153,14 +153,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: shclub/edu7
+          images:  <본인 도커 계정>/edu1
       
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: shclub/edu7 
+          tags:  <본인 도커 계정>/edu1
           #${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 ```  
@@ -174,28 +174,28 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: shclub/edu7
+          images:  <본인 도커 계정>/edu1
       
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: shclub/edu7 
+          tags:  <본인 도커 계정>/edu1
           labels: ${{ steps.meta.outputs.labels }}
 #after
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: <본인 도커 계정>/edu7 <-- 수정
+          images: <본인 도커 계정>/edu1 <-- 수정
       
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: <본인 도커 계정>/edu7   <-- 수정  
+          tags: <본인 도커 계정>/edu1   <-- 수정  
           labels: ${{ steps.meta.outputs.labels }}
 ```  
 
@@ -212,7 +212,7 @@ Actions Tab 으로 이동하면 Publish Docker image 가 생성이 되고 빌드
 에러를 클릭하면 세부 파이프라인 창으로 이동을 하고 오른편 화면에 에러가 난 곳을 확장 하여 에러메시지를
 확인한다.  
 
-에러 메시지는  Github Repository (edu7)에 도커 허브 credential을 만들지 않아서 발생한 에러이다.
+에러 메시지는  Github Repository (edu1)에 도커 허브 credential을 만들지 않아서 발생한 에러이다.
 
 <img src="./assets/github_action15.png" style="width: 100%; height: auto;"/>  
 
@@ -470,7 +470,7 @@ docker compose 기동시에 volumes 설정이 로컬 폴더와 컨테이너 폴�
 
 <img src="./assets/docker_compose_web.png" style="width: 60%; height: auto;">  
 
-다른 docker-compse를 테스트 하기 위해서는 폴더를 새로 만든 후 docker-compose.yaml를 만들고 해당 폴더에서 명령어를 수행한다.
+다른 docker-compose를 테스트 하기 위해서는 폴더를 새로 만든 후 docker-compose.yaml를 만들고 해당 폴더에서 명령어를 수행한다.
 
 <br/>
 
