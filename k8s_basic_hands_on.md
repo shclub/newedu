@@ -685,13 +685,19 @@ flask-edu4-app   ClusterIP   10.43.119.5   <none>        5000/TCP    3s
 
 ```bash
 root@jakelee:~# oc expose svc/flask-edu4-app --name flask-edu
-```  
-
-route 조회해 본다.  
-
-```bash
+route.route.openshift.io/flask-edu exposed
 root@jakelee:~# kubectl get route
+NAME         HOST/PORT                                    PATH   SERVICES         PORT   TERMINATION   WILDCARD
+edu-shclub   edu-shclub.apps.211-34-231-82.nip.io                mynginx          80                   None
+flask-edu    flask-edu-shclub.apps.211-34-231-82.nip.io          flask-edu4-app   5000                 None
 ```  
+
+<br/>
+
+웹브라우저에서 해당 url을 조회해 본다.
+
+http://flask-edu-shclub.apps.211-34-231-82.nip.io  
+
 
 <br/>
 
