@@ -183,3 +183,13 @@ rookie3 : 211.43.14.85
 rookie4 : 211.253.37.149  
 
 rookie5 : 211.253.37.151  
+
+<br/>
+
+PV List  (8G)
+
+mariadb-pv-ojt1
+mariadb-pv-ojt2
+mariadb-pv-ojt3
+mariadb-pv-ojt4
+mariadb-pv-ojt5             

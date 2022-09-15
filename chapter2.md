@@ -399,7 +399,7 @@ services:
        - ./wp:/var/www/html
 ```  
 
-맥 M1 사용자는 M1용 mysql 도커 이미지가 없어 아래의 샘플로 테스트 한다.  
+맥북 M1 사용자는 M1용 mysql 도커 이미지가 없어 아래의 샘플로 테스트 한다.  
 
 
 ```yaml
@@ -481,14 +481,14 @@ docker compose 기동시에 volumes 설정이 로컬 폴더와 컨테이너 폴�
 ### 과제 1
 
 
- docker compose로 구성한 mysql container  접속하여 로그인 한 후 wordpress db에 customer 테이블을 생성해 본다.  
+ docker compose로 구성한 mysql container에 접속하여 로그인 한 후 wordpress db에 customer 테이블을 생성해 본다.  
 
 <br/>
 
 ### 과제 2
 
-mysql container  접속하여 로그인 한 후 wordpress db에 
-아래 테이블 script를  로컬에 저장된 화일을 사용하여 test 테이블을 생성해 본다.  
+mysql container 에 접속하여 로그인 한 후 wordpress db 에 
+아래 테이블 script를  host에 저장된 화일을 사용하여 test 테이블을 생성해 본다.  
 
   https://github.com/shclub/edu1/blob/master/test.sql 화일을 다운 받는다.  
 

@@ -760,6 +760,8 @@ flask-edu4-app   NodePort    10.43.119.5   <none>        5000:30685/TCP   9m7s
 curl <VM Public IP>:<할당된 노드 포트 >
 ```
 
+<br/>
+
 ```bash
 root@jakelee:~# curl 211.34.231.84:30685
  Container EDU | POD Working : flask-edu4-app-74788b6479-t6rvt | v=1
