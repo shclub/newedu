@@ -386,12 +386,13 @@ git clone https://github.com/shclub/edu1.git
 
 <br/>
 
-도커 이미지를 만들기 위해서는 Dockerfile 을 생성 해야 한다.
+위에서 복사한 Dockerfile은 아래와 같다.
+
+<br/>
 
 Dockerfile 예제
 
 ```yaml
-
 # 베이스 이미지 이며 이미지 이름 앞에 아무것도 없으면 docker hub에서 가져온다.
 FROM python:3.8-slim
 
@@ -401,15 +402,7 @@ WORKDIR /app
 # 로컬 현대 폴더의 모든 값을 컨테이너 /app 폴더에 복사한다.
 ADD . /app
 
-# pyhon의 경우 library를 requirements.txt에 기술을 하였고 RUN 명령어를 # 사용하여 아래 구문을 실행한다.
-
-# RUN pip install -r requirements.txt
-
-# 직접 라이브러리를 추가 할수 있다. 단 라이브러리가 많아지면 불편하다.
-RUN pip3 install flask==2.0.3
-RUN pip3 install flask-cors==3.0.10
-RUN pip3 install flask_restx
-RUN pip3 install Werkzeug==2.0.3
+RUN pip install -r requirements.txt
 
 # 기본 이미지는 대부분 GMT+0 기준으로 생성되어 한국 시간으로 변경 해준다
 RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo Asia/Seoul > /etc/timezone
@@ -422,98 +415,48 @@ EXPOSE 40003
 CMD ["python", "app.py"]
 ```
 
-터미널에서 edu2 폴더로 이동하여 vi 에디터로 Dockerfile를 생성한다.  
-
-```bash
-vi Dockerfile
-``` 
+<br/>
 
 <img src="./assets/vi_dockerfile.png" style="width: 60%; height: auto;"/>  
 
 <br/>
 
-i (소문자) 를 누른 후 위의 Dockerfile 내용을 복사하여 붙여넣기 한다. 
+vi 에디터는 i (소문자) 를 누른 후  내용을 복사하여 붙여넣기 한다. 
 esc 키를 누른 후 :wq를 입력하여 저장하고 나온다.   
 
 
-그리고  app.py 화일을 아래 소스를 사용하여 생성한다.  
-
-```bash
-vi app.py
-``` 
+app.py 화일의 내용은 아래와 같도 Flask 프레임 웍을 사용하며 내부 포트는 8080 이다.  
 
 app.py    
-
-
 ```python
-# -*- coding:utf-8 -*-
-# REST API로 구현한 계산기 예제
-
-import werkzeug
-werkzeug.cached_property = werkzeug.utils.cached_property
-
 from flask import Flask
-from flask_restx import Resource, Api, reqparse
-
-
-# -----------------------------------------------------
-# api
-# -----------------------------------------------------
 app = Flask(__name__)
-api = Api(app, version='1.0', title='Calc API',
-          description='계산기 REST API 문서',)
 
-ns = api.namespace('calc', description='계산기 API 목록')
-app.config.SWAGGER_UI_DOC_EXPANSION = 'list'  # None, list, full
-
-
-# -----------------------------------------------------
-# 덧셈을 위한 API 정의
-# -----------------------------------------------------
-sum_parser = ns.parser()
-sum_parser.add_argument('value1', required=True, help='연산자1')
-sum_parser.add_argument('value2', required=True, help='연산자2')
-
-
-@ns.route('/sum')
-@ns.expect(sum_parser)
-class FileReport(Resource):
-    def get(self):
-        """
-                Calculate addition
-        """
-        args = sum_parser.parse_args()
-
-        try:
-            val1 = args['value1']
-            val2 = args['value2']
-        except KeyError:
-            return {'result': 'ERROR_PARAMETER'}, 500
-
-        result = {'result': 'ERROR_SUCCESS','value': int(val1) + int(val2)}        
-        return result, 200
-
+@app.route("/")
+def hello():
+    return "Hello World!"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)  # , debug=True)
+    app.run(host= '0.0.0.0',port=8080,debug=True)
 ```
+
 
 <br/>
 
-git 명령어를 사용하여 서버에 commit 하고 push 한다.
+먼저  아래 명령어를 사용하여 기존의 컨테이너를 종료하고 삭제한다.  
 
 ```bash
-git add .
-git commit -m "first commit"
-git push -u origin master
+docker rm -f $(docker ps -aq)
 ```  
+
 <br/>
 
 이제 아래 명령어를 사용하여 도커 이미지를 생성한다. 
-Dockerfile 위치와 같은 폴더에서 실행하여야 하며 생성할 이미지 이름 뒤에 . 을 반드시 사용한다.
+Dockerfile 위치와 같은 폴더에서 실행하여야 하며 생성할 이미지 이름 뒤에 . 을 반드시 사용한다.  
+
 
 ```bash
-docker build -t edu2 .
+docker build -t edu1 .
 ```   
 
 <img src="./assets/docker_build_t1.png" style="width: 60%; height: auto;"/>
@@ -528,20 +471,21 @@ Cache를 사용 하기 때문에 훨씬 빨리 빌드가 된다.
 
 아래 명령어를 사용하여 생성된 도커 이미지를 확인 할 수 있다.
 
+
 ```bash
 docker images
 ```  
 
 <img src="./assets/docker_images.png" style="width: 60%; height: auto;"/>
 
-로컬에서 생성된 이미지를 공유하기 위해서는 Docker Hub 에 저장을 해야 하고 그 전에  Docker Hub에서 계정을 생성한다. ( private repository 는 1개만 가능 )   
+로컬에서 생성된 이미지를 공유하기 위해서는 Docker Hub 에 저장을 해야 하고 그 전에  Docker Hub에서 계정을 생성한다. ( private repository 는 2개만 가능 )   
 
 계정 생성 후에 tagging 을 하고 push를 한다.  
 tag 명령어 뒤에는 로컬 이미지 이름 , 다음에는 도커허브 이미지 이름을 입력.
 
 ```bash
-docker tag edu2 (본인 도커 허브 ID)/edu2
-docker push (본인 도커 허브 ID)/edu2
+docker tag edu1 (본인 도커 허브 ID)/edu1
+docker push (본인 도커 허브 ID)/edu1
 ```  
 
 <img src="./assets/docker_edu2_push.png" style="width: 60%; height: auto;"/>
@@ -565,7 +509,7 @@ docker stop (컨테이너id)
 - 맨 마지막에 도커 이미지 이름  
 
 ```bash
-docker run -d --name my-python -p 40003:5000 (본인 도커 허브 ID)/edu2
+docker run -d --name my-python -p 40003:5000 (본인 도커 허브 ID)/edu1
 ```  
 
 docker ps 명령어로 정상적인지 확인한다.
@@ -605,7 +549,7 @@ exit 명령어를 사용하여 컨테이너 내부에서 나올수 있다.
 - 신규 도커 이미지 : 신규로 생성하고 싶은 로컬 도커이미지 이름을 적어준다  
 
 ```bash
-docker commit -m "new edu2" (컨테이너 이름) (생성하고싶은 이미지 이름):(버전)
+docker commit -m "new edu1" (컨테이너 이름) (생성하고싶은 이미지 이름):(버전)
 ```  
 
 <img src="./assets/docker_commit.png" style="width: 60%; height: auto;">  
@@ -639,6 +583,10 @@ root@jakelee:~# docker stats
 
 ### 계정 생성 후에 Repository를  생성한다.
 
+우리는 repository 를 fork할 예정임으로 아래 생성 과정은 생략하고  setting 메뉴에서 repository 선택 한 후에 default branch를 main 에서 master 로 변경한다.  
+
+> 아래 내용 스킵
+
 아래와 같이 이름 입력를 하고 README file check 를 한다.  
 
 <img src="./assets/repository_create.png" style="width: 80%; height: auto;"/>
@@ -646,6 +594,10 @@ root@jakelee:~# docker stats
 default 브랜치를 main에서 master로 변경한다. ( 맨 하단 setting 클릭하여 설정)
 
 <img src="./assets/default_branch_modify.png" style="width: 60%; height: auto;"/>
+
+<br/>
+
+> 여기서 부터 시작
 
 <br/>
 
@@ -668,6 +620,25 @@ default 브랜치를 main에서 master로 변경한다. ( 맨 하단 setting 클
 <br/>
 
 ### Docker 연동 테스트를 한다.
+
+<br/>
+
+기존에 로그인 사람의 계정이 있을수 있기 때문에 로그아웃을 먼저한다.  
+
+```bash
+docker logout 
+```  
+
+다시 로그인을 하고  본인 id와 비밀번호를 입력한다.  
+
+```bash
+docker login 
+```  
+
+<br/>
+
+tag를 하여 새로운 이름을 생성하고  docker hub에 push 한다.   
+
 
 ```bash
 docker tag hello-world (본인id)/hello-world
@@ -695,7 +666,7 @@ docker push (본인id)/hello-world
 
 
 도커 이미지가 Private으로 되어 있으면 Public 으로 변경한다. 
-- 개인 계정은 1개의 private 만 가능
+- 개인 계정은 2개의 private 만 가능
 
 setting 으로 이동하여 Make public 클릭후 repository 이름을 입력후 Make Public 클릭  
 
@@ -710,7 +681,7 @@ setting 으로 이동하여 Make public 클릭후 repository 이름을 입력후
 ### 일반 사용자 계정을 생성한다  
 
 웹 브라우저에서 http://211.252.85.148:9000/ 로 이동하여 로그인 한다.
-교육 계정은 기 생성 되어 있다. ( edu1 ~ edu25 )  
+교육 계정은 기 생성 되어 있다. ( edu1 ~ edu35 )  
 
 비밀번호는 계정 이름과 동일.  
 
@@ -729,7 +700,9 @@ Manage Jenkins -> Manage Users  로 이동한다. 사용자 생성 버튼 클릭
 
 Configure Global Security로 이동  
 
-admin 계정으로 테스트 할 예정 으로  skip.
+<br/>
+
+> admin 계정으로 테스트 할 예정 으로  skip  한다.  
     
 <img src="./assets/configure_global_security.png" style="width: 80%; height: auto;"/>
 
@@ -757,7 +730,7 @@ Github 사이트의 오른쪽 상단 본인 계정의 Setting으로 이동한다
 
 <br/>
 
-Expiration 은 No Expiration으로 선택하고 repo, admin:repo_hook 만 체크하고  Generation Token 버튼 클릭해서 토큰 생성  
+Expiration 은 No Expiration으로 선택하고 repo, admin:repo_hook , write:packages, delete:packages 만 체크하고  Generation Token 버튼 클릭해서 토큰 생성  
  
 <img src="./assets/github_token_setting2.png" style="width: 80%; height: auto;"/>
 
@@ -789,11 +762,11 @@ Add Credential를 클릭하면 계정 설정하는 화면이 나온다.
 
 Kind는  Username with password 를 선택해주시면 됩니다.  
 
-Username 은 본인의 Github ID 를 선택해주시면 됩니다. ( 이메일 아님 )  
+> Username 은 본인의 Github ID 를 선택해주시면 됩니다. ( 이메일 아님 )  
 
 ID는 본인이 원하는 식별자를 넣어준다.  
 
-password는 이전에 발급받은 Github Token 값을 입력한다.  
+> password는 이전에 발급받은 Github Token 값을 입력한다.  
        
 <img src="./assets/jenkins_github_credential4.png" style="width: 80%; height: auto;"/>
 
@@ -806,6 +779,10 @@ password는 이전에 발급받은 Github Token 값을 입력한다.
 Jenkins가 Docker Hub에 Image를 push 할 수 있도록 Credential을 추가하자
 
 - Manage Jenkins -> Manage Credential -> System  -> Global Credential 로 이동한다.
+
+<br/>
+
+> 바로 이동 : http://211.252.85.148:9000/credentials/store/system/  
 
 <br/>
 

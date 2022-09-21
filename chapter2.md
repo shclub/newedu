@@ -407,20 +407,35 @@ version: '3.3'
 services:
     frontend:
         image: ghcr.io/shclub/edu12-3:master
-        container_name: frontend
         depends_on:
           - backend
-        environment:
-          API_URL: http://backend:8080
         ports:
-          - 3000:80
+          - 80:80
+        environment:
+          REACT_APP_API_URL: http://backend:8080
     backend:
-        image: ghcr.io/shclub/edu12-4:master
-        container_name: backend
-        environment:
-          SPRING_PROFILES_ACTIVE: dev
+        depends_on:
+          - db
         ports:
-          - 8092:8080
+          - 8111:8080
+        image: ghcr.io/shclub/edu12-4:master
+        environment:
+          # dev is H2 DB , prd is MariaDB
+          SPRING_PROFILES_ACTIVE: prd
+          SPRING_DATASOURCE_USERNAME: edu
+          SPRING_DATASOURCE_PASSWORD: caravan
+    db:
+        image: ghcr.io/shclub/mariadb:10.6.9-debian-11-r4
+        ports:
+          - 3306:3306
+        volumes:
+            - ${PWD}/database:/var/lib/mysql
+            - ${PWD}/schema.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+          MARIADB_ROOT_PASSWORD: New1234!
+          MARIADB_DATABASE: edu
+          MARIADB_USER: edu
+          MARIADB_PASSWORD: caravan
 ```  
 <br/>
 
@@ -508,12 +523,6 @@ mysql container 에 접속하여 로그인 한 후 wordpress db 에
 <br/>
 
 ### 과제 3
-
-금일 실습한 Dockerfile과 docker-compose.yml 화일을 git 명령어를 사용하여 edu2에 push 한다.  
-
-<br/>
-
-### 과제 4
 
 docker 컨테이너 GUI 관리 툴인 portainer를 설치하고 웹에서 접속하여
           모니터링한다.

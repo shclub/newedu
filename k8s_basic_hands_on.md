@@ -676,7 +676,11 @@ flask-edu4-app   ClusterIP   10.43.119.5   <none>        5000/TCP    3s
 
 <br/>
 
-### 잠시 Route 설정  시작
+***
+
+<br/>
+
+### Route 설정  시작
 
 <br/>
 
@@ -696,12 +700,16 @@ flask-edu    flask-edu-shclub.apps.211-34-231-82.nip.io          flask-edu4-app 
 
 웹브라우저에서 해당 url을 조회해 본다.
 
-http://flask-edu-shclub.apps.211-34-231-82.nip.io  
+> http://flask-edu-shclub.apps.211-34-231-82.nip.io  
 
 
 <br/>
 
-### 잠시 Route 설정 끝
+### Route 설정 끝
+
+<br/>
+
+***
 
 <br/>
 
