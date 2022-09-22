@@ -952,12 +952,17 @@ POD의 resource는 300m으로 최대값이 설정되어 있다.
 
 <br/>  
 
-참고 : 명령어로 작업하기   
+> 참고 : 명령어로 작업하기   
 
 <br/>  
-kustomize 설정 확인.
-github의 shclub/edu6에 설정 되어 있는 화일로 테스트 한다.
-- git clone은 하고 다운받은 화일로 하면 됨.  
+
+kustomize 설정 확인.  
+
+<br/>
+
+github의 shclub/edu6에 설정 되어 있는 화일로 테스트 한다.  
+
+- edu6 리포지토리를 git clone 먼저 하여 다운받은 화일로 하면 된다.  
 
 ```bash
 root@jakelee:~# kustomize build https://github.com/shclub/edu6/overlays/development/
@@ -997,13 +1002,150 @@ spec:
             cpu: 300m
 ```  
 
-kustomize 적용  
+<br/>
+
+kustomize 적용    
 
 ```bash
 kubectl apply -k https://github.com/shclub/edu6/overlays/development/
 ```  
 
 <br/> 
+
+이제 이미지를 수정을 해 보도록 하겠습니다.  
+
+먼저 소스를 git clone으로 다운 받습니다.  
+
+```bash
+root@newedu:~# git clone https://github.com/shclub/edu6.git
+```  
+
+edu6 폴더로 이동합니다.
+
+```bash
+root@newedu:~# cd edu6
+root@newedu:~/edu6# ls
+README.md  base  overlays
+```  
+
+<br/>
+
+overlays/development 폴더로 이동합니다.
+
+```bash 
+root@newedu:~/edu6# cd overlays/development
+root@newedu:~/edu6/overlays/development# ls
+cpu_count.yaml  kustomization.yaml  replica_count.yaml
+```  
+
+kustomization.yaml 화일을 보면 image가 shclub/edu4로 되어 있고 tag는 v1인 것을 볼 수 있습니다.  
+
+
+```bash 
+root@newedu:~/edu6/overlays/development# cat kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: shclub/edu4
+  newTag: v1
+namePrefix: dev-
+bases:
+- ../../base
+patchesStrategicMerge:
+- replica_count.yaml
+- cpu_count.yaml
+```
+
+<br/>
+
+set image 명령어를 사용하여 이미지를 변경하고 Build 명령어를 사용하여 적용합니다.  
+
+
+```bash 
+root@newedu:~/edu6/overlays/development# kustomize edit set image shclub/edu4:v2
+root@newedu:~/edu6/overlays/development# kustomize build .
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-edu6
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    run: edu6
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-edu6
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: edu6
+  template:
+    metadata:
+      labels:
+        run: edu6
+    spec:
+      containers:
+      - image: shclub/edu4:v2
+        name: edu6
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: 300m
+```  
+
+<br/>
+
+로컬에서 변경이 완료 되면 github 에 적용합니다.  
+
+push 할때는 본인의 github 계정과 비밀번호는 사전에 발급 받은 token을 입력합니다.   
+
+```bash
+root@newedu:~/edu6/overlays/development# git add .
+root@newedu:~/edu6/overlays/development# git commit -m "image modified"
+[master 7288293] image modified
+ Committer: root <root@newedu.cs7d77cloud.internal>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+root@newedu:~/edu6/overlays/development# git push origin master
+Username for 'https://github.com': shclub
+Password for 'https://shclub@github.com':
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 571 bytes | 571.00 KiB/s, done.
+Total 5 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/shclub/edu6.git
+   1a86d64..7288293  master -> master
+```  
+
+<br/>
+
+github 에 적용이 되면 ArgoCD로 이동을 하여 Sync를 하고 이미지가 변경 된 것을 확인합니다.  
+
+<img src="./assets/kustomize_argocd_dev4.png" style="width: 60%; height: auto;"/>  
+
+
+
+<br/>
 
 
 ### argocd remote 에서 배포 하기    
