@@ -162,7 +162,7 @@ spec:
 ```  
 
 ArgoCD에서 New App를 클릭하고 아래와 같이 설정하고 Create 한다.  
-namespace 는 rollout-demo로 자동 생성되게 설정한다.  
+namespace 는 본인의  namespace 로 설정합니다. 
 
 <img src="./assets/argocd_bluegreen1.png" style="width: 100%; height: auto;"/>
 <img src="./assets/argocd_bluegreen2.png" style="width: 100%; height: auto;"/>    
@@ -174,7 +174,7 @@ namespace 는 rollout-demo로 자동 생성되게 설정한다.
 아래 명령어를 사용하여 서비스의 NodePort를 확인한다.  
 
 ```bash
-root@jakelee:~# kubectl get all -n rollout-demo
+root@jakelee:~# kubectl get all
 NAME                                     READY   STATUS    RESTARTS   AGE
 pod/rollout-bluegreen-5ffd47b8d4-zlkfl   1/1     Running   0          16s
 pod/rollout-bluegreen-5ffd47b8d4-rttxs   1/1     Running   0          16s
@@ -209,7 +209,7 @@ Blue Green이 배포되었으니 확인하기 위해서 active와 preview 서비
 <img src="./assets/argocd_bluegreen6.png" style="width: 80%; height: auto;"/>  
 
 ```bash
-root@jakelee:~# kubectl get po -n rollout-demo
+root@jakelee:~# kubectl get po 
 NAME                                 READY   STATUS    RESTARTS   AGE
 rollout-bluegreen-5ffd47b8d4-zlkfl   1/1     Running   0          11m
 rollout-bluegreen-5ffd47b8d4-rttxs   1/1     Running   0          11m
@@ -242,7 +242,7 @@ Blue/Green yaml 파일에서 autoPromotionEnabled 옵션을 false로 주었기 �
 - 명령 모드 에서 진행하는 방법
   ```bash
   #rollout 상태 확인 : STATUS는 Paused
-  root@jakelee:~# kubectl argo rollouts list rollout -n rollout-demo
+  root@jakelee:~# kubectl argo rollouts list rollout 
   NAME               STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
   rollout-bluegreen  BlueGreen  Paused        -     -           2/4    2        2           2
   ```  
@@ -251,7 +251,7 @@ Blue/Green yaml 파일에서 autoPromotionEnabled 옵션을 false로 주었기 �
 
   ```bash
   #rollout 상태 확인 후 승인
-  root@jakelee:~# kubectl argo rollouts promote rollout-bluegreen -n rollout-demo
+  root@jakelee:~# kubectl argo rollouts promote rollout-bluegreen
   rollout 'rollout-bluegreen' promoted
   ```  
 
@@ -259,7 +259,7 @@ rollout 상태 확인
 
 ```bash
 #rollout 상태 확인 (healthy)
-root@jakelee:~# kubectl argo rollouts list rollout -n rollout-demo
+root@jakelee:~# kubectl argo rollouts list rollout
 NAME               STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
 rollout-bluegreen  BlueGreen  Healthy       -     -           2/4    2        2           2
 ```  
@@ -268,13 +268,13 @@ promote 과정을 진행하면 rollouts의 상태가 healthy로 변하고 blue �
 
 ```bash
 #pod 상태 확인 (healthy)
-root@jakelee:~# kubectl get po  -n rollout-demo
+root@jakelee:~# kubectl get po
 NAME                                 READY   STATUS        RESTARTS   AGE
 rollout-bluegreen-75695867f-mnblz    1/1     Running       0          10m
 rollout-bluegreen-75695867f-rxw9k    1/1     Running       0          10m
 rollout-bluegreen-5ffd47b8d4-zlkfl   1/1     Terminating   0          20m
 rollout-bluegreen-5ffd47b8d4-rttxs   1/1     Terminating   0          20m
-root@jakelee:~# kubectl get po  -n rollout-demo
+root@jakelee:~# kubectl get po 
 NAME                                READY   STATUS    RESTARTS   AGE
 rollout-bluegreen-75695867f-mnblz   1/1     Running   0          13m
 rollout-bluegreen-75695867f-rxw9k   1/1     Running   0          13m
@@ -457,7 +457,7 @@ root@jakelee:~# while true; do curl http://210.106.105.165:30083 | jq .color; sl
 배포가 정상적으로 이루어졌고, canary 버전이 문제가 없기 때문에 기존에 배포된 내용을 걷어내고, canary 버전을 완전히 배포해보겠습니다.  
 
 ```bash  
-root@jakelee:~# kubectl argo rollouts list rollout -n canary
+root@jakelee:~# kubectl argo rollouts list rollout
 NAME            STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
 canary-rollout  Canary     Paused        1/2   25          8/8    8        2           8
 ```  
@@ -467,18 +467,18 @@ Blue/Green 때처럼 Status가 Pause 상태인 것을 확인할 수 있습니다
 Promote명령어를 이용하여 배포를 진행합니다.  
 
 ```bash
-root@jakelee:~# kubectl argo rollouts promote canary-rollout -n canary
+root@jakelee:~# kubectl argo rollouts promote canary-rollout
 rollout 'canary-rollout' promoted
-root@jakelee:~# kubectl argo rollouts list rollout -n canary
+root@jakelee:~# kubectl argo rollouts list rollout
 NAME            STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
 canary-rollout  Canary     Progressing   2/2   100         8/10   8        4           8
-root@jakelee:~# kubectl argo rollouts list rollout -n canary
+root@jakelee:~# kubectl argo rollouts list rollout
 NAME            STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
 canary-rollout  Canary     Progressing   2/2   100         8/10   8        6           8
-root@jakelee:~# kubectl argo rollouts list rollout -n canary
+root@jakelee:~# kubectl argo rollouts list rollout
 NAME            STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
 canary-rollout  Canary     Progressing   2/2   100         8/10   8        8           8
-root@jakelee:~# kubectl argo rollouts list rollout -n canary
+root@jakelee:~# kubectl argo rollouts list rollout
 NAME            STRATEGY   STATUS        STEP  SET-WEIGHT  READY  DESIRED  UP-TO-DATE  AVAILABLE
 canary-rollout  Canary     Healthy       2/2   100         8/8    8        8           8
 ```  

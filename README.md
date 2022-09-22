@@ -104,7 +104,10 @@ oc login https://api.211-34-231-81.nip.io:6443 -u shclub-admin -p <비밀번호>
 ```  
 
 - 계정 : <edu + 순번 + `-admin`>  ( 예: edu1-admin )
-- 비밀번호 : 사전 공지  
+- 비밀번호 : 사전 공지    
+
+
+OKD WEB Console : https://console-openshift-console.apps.211-34-231-82.nip.io/  
 
 
 <br/>
