@@ -1004,13 +1004,17 @@ spec:
 
 <br/>
 
-kustomize 적용    
+> kustomize 적용    
 
 ```bash
 kubectl apply -k https://github.com/shclub/edu6/overlays/development/
 ```  
 
 <br/> 
+
+> 이미지 수정  
+
+<br/>
 
 이제 이미지를 수정을 해 보도록 하겠습니다.  
 
