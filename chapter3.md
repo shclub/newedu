@@ -11,7 +11,11 @@ kubernetes 는 FlyingCube 2.0 ( OKD 4.7 ) 로 실습을 진행하다.
 
 참고 : https://subicura.com/k8s/
 
+<br/>
 
+> kubernetes 소개 : https://youtu.be/Ia8IfowgU7s
+ 
+<br/>
  
 <br/>
 

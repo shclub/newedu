@@ -1148,7 +1148,6 @@ github 에 적용이 되면 ArgoCD로 이동을 하여 Sync를 하고 이미지�
 <img src="./assets/kustomize_argocd_dev4.png" style="width: 60%; height: auto;"/>  
 
 
-
 <br/>
 
 

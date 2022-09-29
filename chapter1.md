@@ -14,7 +14,13 @@ Docker에 대해서 자세한 설명과 함께 Jenkins CI 구성 요소인 Git�
 
 <br/>
 
+
 ### Docker 란 ?
+
+
+<br/>
+
+> 도커 소개 : https://youtu.be/tPjpcsgxgWc
 
 <br/>
 
@@ -107,6 +113,10 @@ ssh root@(본인 Public ip)
 ### Docker 설치
 
 <br/>
+
+> 도커 설치 : https://youtu.be/w8EVLx1_xY0
+
+<br/> 
 
 #### 패키지 인덱스 업데이트
 
