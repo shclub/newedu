@@ -1688,6 +1688,16 @@ horizontalpodautoscaler.autoscaling "php-apache" deleted
 ```
 
 
+<br/>
+
+### CKA ( Certified Kubernetes Administration ) 예상 문제
+
+
+<br/>
+
+-  https://github.com/shclub/cka_question
+
+
 
 <br/>
 
@@ -1696,6 +1706,7 @@ horizontalpodautoscaler.autoscaling "php-apache" deleted
 <br/>
 
 목록 - blog
+
 <br/>
 
 - 커피고래 : https://coffeewhale.com/categories/#kubernetes
