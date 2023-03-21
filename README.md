@@ -7,6 +7,24 @@
 
 <br/>
 
+2022년 1등 학습체 자료  : https://github.com/shclub/edu
+- 각 솔루션 설치 가이드 (k3s , jenkins , ArgoCD 등 ) 
+- Cloud Native 교육
+- SpringBoot 초급  
+
+<br/>
+
+2023년 Cloud Native B2B 역량 강화 전사 교육 자료  : https://github.com/shclub/edu2023
+
+
+<br/>
+
+과제 :  [과제 문서보기](https://github.com/shclub/edu2023/blob/master/homework.md) 
+
+
+
+<br/>
+
 1. Chapter 1 : 2시간  ( [가이드 문서보기](./chapter1.md) )  
 
      - Docker 이해 및 활용 
